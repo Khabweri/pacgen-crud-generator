@@ -7,7 +7,7 @@ Laravel CRUD Generator is a package that simplifies the process of generating CR
 You can install the package via Composer. Inside your Laravel project directory, run the following command:
 
 ```bash
-composer require laragen/crud-generator
+composer require pacgen/crud-generator
 
 Registering the Command
 If you intend to use this class as a command in your Laravel application, you would register it in your app/Console/Kernel.php file:
@@ -15,7 +15,7 @@ If you intend to use this class as a command in your Laravel application, you wo
 php
 Copy code
 protected $commands = [
-    \Laragen\CrudGenerator\CrudGeneratorCommand::class,
+    \Pacgen\CrudGenerator\CrudGeneratorCommand::class,
 ];
 
 
@@ -32,7 +32,7 @@ Laravel CRUD Generator is a package that simplifies the process of generating CR
 You can install the package via Composer. Inside your Laravel project directory, run the following command:
 
 ```bash
-composer require laragen/crud-generator
+composer require pacgen/crud-generator
 Usage
 To generate CRUD for a model, run the following artisan command, replacing ModelName with the name of your model:
 
