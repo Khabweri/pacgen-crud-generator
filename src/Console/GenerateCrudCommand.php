@@ -9,6 +9,14 @@ use Illuminate\Support\Str;
 
 class GenerateCrudCommand extends Command
 {
+   // Define the command name and options
+    protected $signature = 'crud:generate {name}';
+    protected $description = 'Generate CRUD operations';
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public static function generate(string $modelName)
     {
         $modelName = Str::singular($modelName);
