@@ -11,7 +11,7 @@ You can install the package via Composer.
 Run the following command to require the package:
 
 ```bash
-composer require pacgen/crud-generator
+composer require pacgen/crud-generator:dev-main
 
 Service Provider (if not auto-discovered)
 For Laravel versions before 8.x, you might need to register the service provider manually. Add the following line to your config/app.php file under the providers array:
