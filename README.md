@@ -18,7 +18,7 @@ For Laravel versions before 8.x, you might need to register the service provider
 
 php
 Copy code
-Pacgen\CrudGenerator\Console\Providers\CrudGeneratorServiceProvider::class,
+Pacgen\CrudGenerator\Providers\CrudGeneratorServiceProvider::class,
 
 # Laravel CRUD Generator
 
