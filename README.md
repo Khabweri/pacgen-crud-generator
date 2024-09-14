@@ -1,6 +1,6 @@
 # Laravel CRUD Generator
 
-Laravel CRUD Generator is a package that simplifies the process of generating CRUD (Create, Read, Update, Delete) operations for your Laravel applications this will save you a lot of your time so you can concentrate on iportant things for your development.
+Laravel CRUD Generator is a package that simplifies the process of generating CRUD (Create, Read, Update, Delete) operations for your Laravel applications this will save you a lot of your time so you can concentrate on important things for your development.
 
 ## Installation
 
@@ -18,21 +18,17 @@ Copy code
 
 Pacgen\CrudGenerator\Providers\CrudGeneratorServiceProvider::class,
 
-# Laravel CRUD Generator
-
-Laravel CRUD Generator is a package that simplifies the process of generating CRUD (Create, Read, Update, Delete) operations for your Laravel applications.
-
-## to generate CRUD
+## To generate CRUD
 php artisan crud:generate ModelName
-This command will generate:
 
+This command will generate:
 A model with migration
 A controller with all resourceful methods
 Views (index, create, edit, show)
 Routes for the CRUD operations
 
 Configuration
-However, you can customize the generated views and controllers as needed for your application. also you need to manually import the Model classes in the controller 
+However, you can customize the generated views and controllers as needed for your application. also you need to manually import the Model class in the controller 
 
 Contributing
 If you find this project helpful and want to support its development, you can donate via:
