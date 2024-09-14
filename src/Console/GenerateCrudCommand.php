@@ -75,64 +75,76 @@ class GenerateCrudCommand extends Command
         // Define the methods to add
         $methodsToAdd = <<<EOT
     
-        public function index()
-        {
-            \${$modelNamePlural} = ${modelName}::all();
-            return view('${modelNamePlural}.index', compact('${modelNamePlural}'));
-        }
-    
-        public function create()
-        {
-            return view('${modelNamePlural}.create');
-        }
-    
-        public function store(Request \$request)
-        {
-            \$request->validate([
-                'title' => 'required',
-                'content' => 'required',
-            ]);
-    
-            ${modelName}::create(\$request->all());
-    
-            return redirect()->route('${modelNamePlural}.index')
-                ->with('success', '${modelName} created successfully.');
-        }
-    
-        public function show(\$id)
-        {
-            \${$modelName} = ${modelName}::findOrFail(\$id);
-            return view('${modelNamePlural}.show', compact('${modelName}'));
-        }
-    
-        public function edit(\$id)
-        {
-            \${$modelName} = ${modelName}::findOrFail(\$id);
-            return view('${modelNamePlural}.edit', compact('${modelName}'));
-        }
-    
-        public function update(Request \$request, \$id)
-        {
-            \$request->validate([
-                'title' => 'required',
-                'content' => 'required',
-            ]);
-    
-            \${$modelName} = ${modelName}::findOrFail(\$id);
-            \${$modelName}->update(\$request->all());
-    
-            return redirect()->route('${modelNamePlural}.index')
-                ->with('success', '${modelName} updated successfully');
-        }
-    
-        public function destroy(\$id)
-        {
-            \${$modelName} = ${modelName}::findOrFail(\$id);
-            \${$modelName}->delete();
-    
-            return redirect()->route('${modelNamePlural}.index')
-                ->with('success', '${modelName} deleted successfully');
-        }
+            public function index()
+            {
+                \${$modelNamePlural} = ${modelName}::all();
+                return view('${modelNamePlural}.index', compact('${modelNamePlural}'));
+            }
+        
+            public function create()
+            {
+                return view('${modelNamePlural}.create');
+            }
+        
+            public function store(Request \$request)
+            {
+                \$validatedData = \$request->validate([
+                    'title' => 'required|string|max:255',
+                    'content' => 'required|string',
+                ], [
+                    'title.required' => 'The title field is required.',
+                    'title.string' => 'The title must be a string.',
+                    'title.max' => 'The title may not be greater than 255 characters.',
+                    'content.required' => 'The content field is required.',
+                    'content.string' => 'The content must be a string.',
+                ]);
+        
+                ${modelName}::create(\$validatedData);
+        
+                return redirect()->route('${modelNamePlural}.index')
+                    ->with('success', '${modelName} created successfully.');
+            }
+        
+            public function show(\$id)
+            {
+                \${$modelName} = ${modelName}::findOrFail(\$id);
+                return view('${modelNamePlural}.show', compact('${modelName}'));
+            }
+        
+            public function edit(\$id)
+            {
+                \${$modelName} = ${modelName}::findOrFail(\$id);
+                return view('${modelNamePlural}.edit', compact('${modelName}'));
+            }
+        
+            public function update(Request \$request, \$id)
+            {
+                \$validatedData = \$request->validate([
+                    'title' => 'required|string|max:255',
+                    'content' => 'required|string',
+                ], [
+                    'title.required' => 'The title field is required.',
+                    'title.string' => 'The title must be a string.',
+                    'title.max' => 'The title may not be greater than 255 characters.',
+                    'content.required' => 'The content field is required.',
+                    'content.string' => 'The content must be a string.',
+                ]);
+        
+                \${$modelName} = ${modelName}::findOrFail(\$id);
+                \${$modelName}->update(\$validatedData);
+        
+                return redirect()->route('${modelNamePlural}.index')
+                    ->with('success', '${modelName} updated successfully.');
+            }
+        
+            public function destroy(\$id)
+            {
+                \${$modelName} = ${modelName}::findOrFail(\$id);
+                \${$modelName}->delete();
+        
+                return redirect()->route('${modelNamePlural}.index')
+                    ->with('success', '${modelName} deleted successfully.');
+            }
         EOT;
     
         // Extract the existing class content
@@ -148,7 +160,7 @@ class GenerateCrudCommand extends Command
     
         // Return original content if class definition is not found
         return $controllerContent;
-    }
+    }    
     
 
     private function generateView($viewName, $modelName, $modelNamePlural)
@@ -176,108 +188,149 @@ class GenerateCrudCommand extends Command
 
     private function getIndexViewContent($modelName, $modelNamePlural)
     {
-        return "@extends('layouts.app')
-
-        @section('content')
+    return "@extends('layouts.app')
+    
+    @section('content')
+        <div class='container'>
+            <div class='row mb-3'>
+                <div class='col'>
+                    <a href='{{ route('{$modelNamePlural}.create') }}' class='btn btn-success'>Create New {$modelName}</a>
+                </div>
+            </div>
+    
             <h1>{$modelNamePlural} List</h1>
-
-            <table class='table'>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(\${$modelNamePlural} as \${$modelName})
-                    <tr>
-                        <td>{{ \${$modelName}->title }}</td>
-                        <td>
-                            <a href='{{ route('{$modelNamePlural}.show', \${$modelName}->id) }}' class='btn btn-info'>View</a>
-                            <a href='{{ route('{$modelNamePlural}.edit', \${$modelName}->id) }}' class='btn btn-primary'>Edit</a>
-                            <form action='{{ route('{$modelNamePlural}.destroy', \${$modelName}->id) }}' method='POST' style='display: inline;'>
-                                @csrf
-                                @method('DELETE')
-                                <button type='submit' class='btn btn-danger'>Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <a href='{{ route('{$modelNamePlural}.create') }}' class='btn btn-success'>Create New {$modelName}</a>
-        @endsection";
+    
+            <div class='table-responsive'>
+                <table class='table table-striped table-hover'>
+                    <thead class='thead-dark'>
+                        <tr>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(\${$modelNamePlural} as \${$modelName})
+                        <tr>
+                            <td>{{ \${$modelName}->title }}</td>
+                            <td>{{ \${$modelName}->content }}</td>
+                            <td>
+                                <a href='{{ route('{$modelNamePlural}.show', \${$modelName}->id) }}' class='btn btn-info btn-sm mr-1'>View</a>
+                                <a href='{{ route('{$modelNamePlural}.edit', \${$modelName}->id) }}' class='btn btn-primary btn-sm mr-1'>Edit</a>
+                                <form action='{{ route('{$modelNamePlural}.destroy', \${$modelName}->id) }}' method='POST' style='display: inline;' onsubmit='return confirmDelete(\"{{ \${$modelName}->id }}\")'>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type='submit' class='btn btn-danger btn-sm'>Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endsection
+    
+    @section('scripts')
+        <script>
+            function confirmDelete(id) {
+                var result = confirm('Are you sure you want to delete item with ID ' + id + '?');
+                return result;
+            }
+        </script>
+    @endsection";
     }
+    
 
     private function getCreateViewContent($modelName, $modelNamePlural)
     {
-        return "@extends('layouts.app')
-
-        @section('content')
+    return "@extends('layouts.app')
+    
+    @section('content')
+        <div class='container'>
             <h1>Create New {$modelName}</h1>
-
+    
             <form method='POST' action='{{ route('{$modelNamePlural}.store') }}'>
                 @csrf
-
+    
                 <div class='form-group'>
                     <label for='title'>Title</label>
-                    <input type='text' id='title' name='title' class='form-control'>
+                    <input type='text' id='title' name='title' class='form-control' required>
                 </div>
-
+    
                 <div class='form-group'>
                     <label for='content'>Content</label>
-                    <textarea id='content' name='content' class='form-control'></textarea>
+                    <textarea id='content' name='content' class='form-control' rows='6' required></textarea>
                 </div>
-
+    
                 <button type='submit' class='btn btn-primary'>Create {$modelName}</button>
             </form>
-        @endsection";
+        </div>
+    @endsection
+    ";
     }
+    
 
     private function getEditViewContent($modelName, $modelNamePlural)
     {
-        return "@extends('layouts.app')
-
-        @section('content')
+    return "@extends('layouts.app')
+    
+    @section('content')
+        <div class='container'>
             <h1>Edit {$modelName}</h1>
-
+    
             <form method='POST' action='{{ route('{$modelNamePlural}.update', \${$modelName}->id) }}'>
                 @csrf
                 @method('PUT')
-
+    
                 <div class='form-group'>
                     <label for='title'>Title</label>
-                    <input type='text' id='title' name='title' class='form-control' value='{{ \${$modelName}->title }}'>
+                    <input type='text' id='title' name='title' class='form-control' value='{{ \${$modelName}->title }}' required>
                 </div>
-
+    
                 <div class='form-group'>
                     <label for='content'>Content</label>
-                    <textarea id='content' name='content' class='form-control'>{{ \${$modelName}->content }}</textarea>
+                    <textarea id='content' name='content' class='form-control' rows='6' required>{{ \${$modelName}->content }}</textarea>
                 </div>
-
+    
                 <button type='submit' class='btn btn-primary'>Update {$modelName}</button>
             </form>
-        @endsection";
+        </div>
+    @endsection
+    ";
     }
+    
 
     private function getShowViewContent($modelName, $modelNamePlural)
     {
-        return "@extends('layouts.app')
-
-        @section('content')
-            <h1>{{ \${$modelName}->title }}</h1>
-
-            <p>{{ \${$modelName}->content }}</p>
-
-            <a href='{{ route('{$modelNamePlural}.edit', \${$modelName}->id) }}' class='btn btn-primary'>Edit</a>
-            <form action='{{ route('{$modelNamePlural}.destroy', \${$modelName}->id) }}' method='POST' style='display: inline;'>
-                @csrf
-                @method('DELETE')
-                <button type='submit' class='btn btn-danger'>Delete</button>
-            </form>
-        @endsection";
+    return "@extends('layouts.app')
+    
+    @section('content')
+        <div class='container'>
+            <div class='card'>
+                <div class='card-body'>
+                    <h1 class='card-title'>{{ \${$modelName}->title }}</h1>
+                    <p class='card-text'>{{ \${$modelName}->content }}</p>
+                    <a href='{{ route('{$modelNamePlural}.edit', \${$modelName}->id) }}' class='btn btn-primary'>Edit</a>
+                    <form action='{{ route('{$modelNamePlural}.destroy', \${$modelName}->id) }}' method='POST' style='display: inline;' onsubmit='return confirmDelete(\"{{ \${$modelName}->id }}\")'>
+                        @csrf
+                        @method('DELETE')
+                        <button type='submit' class='btn btn-danger'>Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        <script>
+            function confirmDelete(id) {
+                var result = confirm('Are you sure you want to delete item with ID ' + id + '?');
+                return result;
+            }
+        </script>
+    @endsection
+    ";
     }
+    
 
     private function appendRoutes($modelName, $modelNamePlural)
     {
