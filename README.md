@@ -1,6 +1,6 @@
 # Laravel CRUD Generator
 
-Laravel CRUD Generator is a package that simplifies the process of generating CRUD (Create, Read, Update, Delete) operations for your Laravel applications.
+Laravel CRUD Generator is a package that simplifies the process of generating CRUD (Create, Read, Update, Delete) operations for your Laravel applications this will save you a lot of your time so you can concentrate on iportant things for your development.
 
 ## Installation
 
@@ -13,11 +13,9 @@ Run the following command to require the package:
 ```bash
 composer require pacgen/crud-generator:dev-main
 
-Service Provider (if not auto-discovered)
 For Laravel versions before 8.x, you might need to register the service provider manually. Add the following line to your config/app.php file under the providers array:
-
-php
 Copy code
+
 Pacgen\CrudGenerator\Providers\CrudGeneratorServiceProvider::class,
 
 # Laravel CRUD Generator
@@ -29,14 +27,18 @@ php artisan crud:generate ModelName
 This command will generate:
 
 A model with migration
-A controller with resourceful methods
+A controller with all resourceful methods
 Views (index, create, edit, show)
 Routes for the CRUD operations
+
 Configuration
-No additional configuration is required out of the box. However, you can customize the generated views and controllers as needed for your application. also you need to manually import the classes in the controller with resourceful methods 
+However, you can customize the generated views and controllers as needed for your application. also you need to manually import the Model classes in the controller 
 
 Contributing
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+If you find this project helpful and want to support its development, you can donate via:
+- **[PayPal] email(andrewkhabweri@gmail.com)**: You can donate securely via PayPal.
+
+Your contributions will help in maintaining and improving this project. Thank you for your support!
 
 License
 The Laravel CRUD Generator is open-source software licensed under the MIT license.
