@@ -2,8 +2,7 @@
     "name": "pacgen/crud-generator",
     "description": "Generate CRUD operations for Laravel models with views, controllers, and routes.",
     "type": "library",
-    "license": "MIT",
-    "version": "2.0.0",  
+    "license": "MIT",  
     "autoload": {
         "psr-4": {
             "Pacgen\\CrudGenerator\\": "src/"
