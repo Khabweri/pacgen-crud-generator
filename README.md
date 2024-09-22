@@ -13,11 +13,6 @@ Run the following command to require the package:
 ```bash
 composer require pacgen/crud-generator:dev-main
 
-For Laravel versions before 8.x, you might need to register the service provider manually but for later versions it registered automatically no need to. Add the following line to your config/app.php file under the providers array:
-Copy code
-
-Pacgen\CrudGenerator\Providers\CrudGeneratorServiceProvider::class,
-
 ## To generate CRUD
 php artisan crud:generate ModelName
 
