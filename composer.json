@@ -21,6 +21,13 @@
         "illuminate/support": "^8.0 | ^9.0 | ^10.0 | ^11.0",
         "illuminate/http": "^8.0 | ^9.0 | ^10.0 | ^11.0"
     },
+    "extra": {
+    "laravel": {
+      "providers": [
+        "Safcom\\Mpesa\\MpesaServiceProvider"
+      ],
+    }
+  },
     "require-dev": {
         "phpunit/phpunit": "^9.0 | ^10.0 | ^11.0"
     },
