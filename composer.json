@@ -35,6 +35,5 @@
             "url": "https://github.com/Khabweri/pacgen-crud-generator.git"
         }
     ],
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "stable"
 }
