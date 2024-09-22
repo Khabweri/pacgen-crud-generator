@@ -28,11 +28,5 @@
     "require-dev": {
         "phpunit/phpunit": "^9.0 | ^10.0 | ^11.0"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Khabweri/pacgen-crud-generator.git"
-        }
-    ],
     "minimum-stability": "stable"
 }
