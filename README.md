@@ -11,7 +11,7 @@ You can install the package via Composer.
 Run the following command to require the package:
 
 ```bash
-composer require pacgen/crud-generator:dev-main
+composer require pacgen/crud-generator
 
 ## To generate CRUD
 php artisan crud:generate ModelName
